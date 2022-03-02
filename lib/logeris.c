@@ -84,7 +84,6 @@ int insertData(char *inputLevel, char *data)
     sqlite3_free(err_msg);
     sqlite3_free(sql);
     sqlite3_close(db);
-    //printf("String inside data is: %s \n", data);
     printf("Inserted data into DB\n");
     return 0;
 }
@@ -118,7 +117,6 @@ int printData(void)
 }
 int deleteAllData(void)
 {
-    //
     printf("Deleted all DB data\n");
     remove(filepath);
     return 0;

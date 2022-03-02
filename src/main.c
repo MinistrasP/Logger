@@ -29,7 +29,6 @@ int main (int argc, char *argv[])
         case 'i':
             read_write_DB();
             break;
-
         case 'p':
             printData();
             break;
@@ -50,23 +49,28 @@ int main (int argc, char *argv[])
 
 void printHelp()
 {
-    printf("Used commands:\n"
+    printf("Program is used to create or delete a database.\n"
+            "To manually or automatically insert data and print data to screen\n"
+            "Database is created in /var/log/manoLogeris\n\n");
+    printf("Usage:\n"
             "-h help\n"
-            "-c create database\n"
-            "-i insert data\n"
-            "-p print data\n"
-            "-d delete DB\n"
-            "-a automatic mode\n");
+            "-c create an empty database\n"
+            "-i insert data manually\n"
+            "-p print data to screen\n"
+            "-d delete database\n"
+            "-a automatic mode - inserts data every second\n\n");
 }
 
 void read_write_DB(void)
 {
-    char level[10];
+    char level[20];
     char word[50];
 
     printf("Write data level(1-INFO 2-WARNING 3-ERROR):\n");
     char z;     //Saugo viena chara
     char i = 0; //Saugo masyvo elemento numeri
+
+    int ch;
 
     while(z = getchar())
     {
@@ -76,11 +80,9 @@ void read_write_DB(void)
         }
         else
         {
-            level[i] = z;
-            i++;
+            level[0] = z;
         }
     }
-    i = 0;
     z = 0;
     printf("Write data:\n");
     while(z = getchar())
@@ -93,10 +95,14 @@ void read_write_DB(void)
         {
             word[i] = z;
             i++;
+            if(i >= 49){
+                break;
+            }
         }
     }
     //printf("Expected data: %s \n", word); //Testine
     insertData(level, word);
+    
 
 }
 
@@ -105,7 +111,8 @@ void automaticMode(void)
     for(int i = 0; i < 100; i++)
     {
         char level[] = {'1'};
-        char data[] = {"Kazkas"};
+        char data[10];
+        sprintf(data, "%d", i);
         insertData(level, data);
         sleep(1);
     }
