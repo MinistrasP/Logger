@@ -16,7 +16,7 @@ int main (int argc, char *argv[])
         return 1;
     }
 
-    while((opt = getopt(argc, argv, "hcipd")) != -1)
+    while((opt = getopt(argc, argv, "hcipda")) != -1)
     {
         switch(opt)
         {
@@ -36,6 +36,9 @@ int main (int argc, char *argv[])
         case 'd':
             deleteAllData();
             break;
+        case 'a':
+            automaticMode();
+            break;
         default:
             printHelp();
             return 1;
@@ -52,7 +55,8 @@ void printHelp()
             "-c create database\n"
             "-i insert data\n"
             "-p print data\n"
-            "-d delete DB\n");
+            "-d delete DB\n"
+            "-a automatic mode\n");
 }
 
 void read_write_DB(void)
@@ -94,4 +98,15 @@ void read_write_DB(void)
     //printf("Expected data: %s \n", word); //Testine
     insertData(level, word);
 
+}
+
+void automaticMode(void)
+{
+    for(int i = 0; i < 100; i++)
+    {
+        char level[] = {'1'};
+        char data[] = {"Kazkas"};
+        insertData(level, data);
+        sleep(1);
+    }
 }
