@@ -4,13 +4,14 @@
 
 sqlite3 *db;
 sqlite3_stmt *res;
+const char filepath[] = "/var/log/manoLogeris/manoDuombaze.db";
 
 int callback(void *, int, char**, char**);
 
 int createDb(void)
 {
     char *err_msg;
-    int rc = sqlite3_open("/var/log/manoDuombaze.db", &db);
+    int rc = sqlite3_open(filepath, &db);
 
     if(rc != SQLITE_OK)
     {
@@ -22,7 +23,6 @@ int createDb(void)
     char *sql = "DROP TABLE IF EXISTS Log;"
                 "CREATE TABLE Log(Id INTEGER PRIMARY KEY, Date TEXT, Time TEXT, level TEXT, data TEXT);";
     rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
-
     if(rc != SQLITE_OK)
     {
         fprintf(stderr, "SQL error %s\n", err_msg);
@@ -38,7 +38,7 @@ int createDb(void)
 
 int insertData(char *inputLevel, char *data)
 {
-    int rc = sqlite3_open("/var/log/manoDuombaze.db", &db);
+    int rc = sqlite3_open(filepath, &db);
     char *err_msg;
     char level[8];
 
@@ -92,7 +92,7 @@ int printData(void)
 {
     char *err_msg;
 
-    int rc = sqlite3_open("/var/log/manoDuombaze.db", &db);
+    int rc = sqlite3_open(filepath, &db);
 
     if(rc != SQLITE_OK)
     {
@@ -120,7 +120,7 @@ int deleteAllData(void)
 {
     //
     printf("Deleted all DB data\n");
-    remove("/var/log/manoDuombaze.db");
+    remove(filepath);
     return 0;
 }
 
