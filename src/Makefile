@@ -1,23 +1,24 @@
 CC:=gcc
-CFLAGS:=-std=c99 -Wall
-LDFLAGS:=-fPIC -shared
 
-BIN:=mainas
+BIN:=logeris
 SRC:=$(wildcard *.c)
 OBJS:=$(SRC:.c=.o)
+LDFLAGS:=-lLogeris
+PREFIX:=/usr
 
-all:clean $(BIN)
-$(BIN): main.c
-	$(CC) -o $@ $^ -L`pwd` -lLogeris
+.PHONY: all clean install uninstall
+
+all: $(BIN)
+
+$(BIN): $(OBJS)
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 install:
-	install -d $(PREFIX)/lib $(PREFIX)/include
-	install -m 0555 $(LIB) $(PREFIX)/lib
-	install -m 0555 bible_testine.h $(PREFIX)/include
+	install -d $(PREFIX)/bin
+	install -m 0555 $(BIN) $(PREFIX)/bin
 
 uninstall:
-	$(RM) $(PREFIX)/lib/$(LIB)
-	$(RM) $(PREFIX)/include/bible_testine.h
+	$(RM) $(PREFIX)/bin/$(BIN)
 
 clean:
-	$(RM) $(BIN) $(OBJS) $(LIB)
+	$(RM) $(BIN) $(OBJS)

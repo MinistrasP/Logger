@@ -7,12 +7,10 @@ LIB:=libLogeris.so
 SRC:=$(wildcard *.c)
 OBJS:=$(SRC:.c=.o)
 
-all:clean $(LIB)
+all: $(LIB)
 
-libLogeris: $(LIB)
-
-$(LIB): logeris.o
-	cc -fpic -shared $(SRC) -o $(LIB) -lsqlite3
+$(LIB): $(OBJS)
+	$(CC) -fpic -shared $(SRC) -o $(LIB) -lsqlite3
 
 install:
 	install -d $(PREFIX)/lib $(PREFIX)/include
@@ -24,4 +22,4 @@ uninstall:
 	$(RM) $(PREFIX)/include/bible_testine.h
 
 clean:
-	$(RM) $(BIN) $(OBJS) $(LIB)
+	$(RM) $(OBJS) $(LIB)
