@@ -100,12 +100,15 @@ void read_write_DB(void)
             }
         }
     }
+    openDatabase();
     insertData(level, word);
+    closeDatabase();
 }
 
 void automaticMode(void)
 {
-    for(int i = 0; i < 100; i++)
+    openDatabase();
+    for(int i = 0; i < 10; i++)
     {
         char level[] = {'1'};
         char data[10];
@@ -113,4 +116,5 @@ void automaticMode(void)
         insertData(level, data);
         sleep(1);
     }
+    closeDatabase();
 }

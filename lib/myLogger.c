@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sqlite3.h>
+#include "myLogger.h"
 
 sqlite3 *db;
 sqlite3_stmt *res;
@@ -8,21 +9,19 @@ const char filepath[] = "/var/log/myLoggerDatabase.db";
 
 int callback(void *, int, char**, char**);
 
+/*
+*   Creates a database in filepath[]
+*   Creates a table inside with id, date,time,level,text
+*/
+
 int createDb(void)
 {
     char *err_msg;
-    int rc = sqlite3_open(filepath, &db);
-
-    if(rc != SQLITE_OK)
-    {
-        fprintf(stderr, "Cannot creat database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-        return 1;
-    }
+    openDatabase();
 
     char *sql = "DROP TABLE IF EXISTS Log;"
                 "CREATE TABLE Log(Id INTEGER PRIMARY KEY, Date TEXT, Time TEXT, level TEXT, data TEXT);";
-    rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
+    int rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
     if(rc != SQLITE_OK)
     {
         fprintf(stderr, "SQL error %s\n", err_msg);
@@ -36,20 +35,16 @@ int createDb(void)
 
 } //End of create DB
 
-int insertData(char *inputLevel, char *data)
+/*
+*   Inserts data into filepath[] database
+*   Data is inserted inside Log table
+*   There are 2 inputs: 1.data level 2.data
+*/
+int insertData(char *inputLevel, char *data)  //Inserts single line of data, database needs to be opened/close
 {
-    int rc = sqlite3_open(filepath, &db);
     char *err_msg;
     char level[8];
 
-    if(rc != SQLITE_OK)
-    {
-        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
-        sqlite3_close(db);
-        return 1;
-    }
-
-    
     switch(inputLevel[0])
     {
         case '1':
@@ -69,10 +64,8 @@ int insertData(char *inputLevel, char *data)
         break;
     }
     
-
-    
     char *sql = sqlite3_mprintf("INSERT INTO Log (date, time, level, data) VALUES (CURRENT_DATE, CURRENT_TIME, '%q', '%q');", level, data);
-    rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
+    int rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
     if(rc != SQLITE_OK)
     {
         fprintf(stderr, "SQL error %s\n", err_msg);
@@ -83,12 +76,15 @@ int insertData(char *inputLevel, char *data)
     }
     sqlite3_free(err_msg);
     sqlite3_free(sql);
-    sqlite3_close(db);
     printf("Inserted data into DB\n");
     return 0;
 } //End of insertData()
 
-int printData(void)
+/*
+*   Prints all data inside filepath[] database
+*   From Log table
+*/
+int printData(void)  
 {
     char *err_msg;
 
@@ -119,6 +115,7 @@ int printData(void)
 
 /*
 *   deleteAllData() used to delete all data from database
+*   Automatically opens/closes database
 */
 int deleteAllData(void)
 {
@@ -162,3 +159,25 @@ int callback(void *NotUsed, int argc, char **argv, char **azColName)
 
     return 0;
 } //End of callback();
+
+/*
+*   openDatabase is used to open database externally
+*/
+void openDatabase(void)
+{
+    int rc = sqlite3_open(filepath, &db);
+
+    if(rc != SQLITE_OK)
+    {
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+    }
+}
+
+/*
+*   closeDatabase is used to close database externally
+*/
+void closeDatabase(void)
+{
+    sqlite3_close(db);
+}

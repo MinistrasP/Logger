@@ -1,6 +1,6 @@
 CC:=gcc
 
-BIN:=myLoger
+BIN:=myLogger
 SRC:=$(wildcard *.c)
 OBJS:=$(SRC:.c=.o)
 LDFLAGS:=-lMyLogger
