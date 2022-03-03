@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "main.h"
-#include <logeris.h>
+#include <myLogger.h>
 
 int main (int argc, char *argv[])
 {
@@ -67,8 +67,8 @@ void read_write_DB(void)
     char word[50];
 
     printf("Write data level(1-INFO 2-WARNING 3-ERROR):\n");
-    char z;     //Saugo viena chara
-    char i = 0; //Saugo masyvo elemento numeri
+    char z;     
+    char i = 0; 
 
     int ch;
 
@@ -100,10 +100,7 @@ void read_write_DB(void)
             }
         }
     }
-    //printf("Expected data: %s \n", word); //Testine
     insertData(level, word);
-    
-
 }
 
 void automaticMode(void)

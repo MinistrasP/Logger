@@ -1,9 +1,9 @@
 CC:=gcc
 
-BIN:=logeris
+BIN:=myLoger
 SRC:=$(wildcard *.c)
 OBJS:=$(SRC:.c=.o)
-LDFLAGS:=-lLogeris
+LDFLAGS:=-lMyLogger
 PREFIX:=/usr
 
 .PHONY: all clean install uninstall

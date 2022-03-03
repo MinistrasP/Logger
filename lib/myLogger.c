@@ -4,7 +4,7 @@
 
 sqlite3 *db;
 sqlite3_stmt *res;
-const char filepath[] = "/var/log/manoLogeris/manoDuombaze.db";
+const char filepath[] = "/var/log/myLoggerDatabase.db";
 
 int callback(void *, int, char**, char**);
 
@@ -86,7 +86,8 @@ int insertData(char *inputLevel, char *data)
     sqlite3_close(db);
     printf("Inserted data into DB\n");
     return 0;
-}
+} //End of insertData()
+
 int printData(void)
 {
     char *err_msg;
@@ -114,14 +115,42 @@ int printData(void)
     sqlite3_close(db);
     printf("Printed out all DB data\n");
     return 0;
-}
+} //End of printData
+
+/*
+*   deleteAllData() used to delete all data from database
+*/
 int deleteAllData(void)
 {
-    printf("Deleted all DB data\n");
-    remove(filepath);
+    char *err_msg;
+
+    int rc = sqlite3_open(filepath, &db);
+
+    if(rc != SQLITE_OK)
+    {
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return 1;
+    }
+    char *sql = "DELETE FROM Log;";
+    rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
+
+    if(rc != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL error: %s\n", err_msg);
+        sqlite3_free(err_msg);
+        sqlite3_close(db);
+        return 1;
+    }
+    
+    sqlite3_close(db);
+    printf("Deleted all myLoggerDatabase data\n");
     return 0;
 }
 
+/*
+*   callback() is used for function printData()
+*/
 int callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
     NotUsed = 0;
@@ -132,4 +161,4 @@ int callback(void *NotUsed, int argc, char **argv, char **azColName)
     printf("\n");
 
     return 0;
-}
+} //End of callback();

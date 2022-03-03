@@ -3,9 +3,10 @@ CFLAGS:=-std=c99 -Wall
 LDFLAGS:=-fPIC -shared
 
 PREFIX:=/usr
-LIB:=libLogeris.so
+LIB:=libMyLogger.so
 SRC:=$(wildcard *.c)
 OBJS:=$(SRC:.c=.o)
+DEP:=myLogger.h
 
 all: $(LIB)
 
@@ -15,11 +16,11 @@ $(LIB): $(OBJS)
 install:
 	install -d $(PREFIX)/lib $(PREFIX)/include
 	install -m 0555 $(LIB) $(PREFIX)/lib
-	install -m 0555 logeris.h $(PREFIX)/include
+	install -m 0555 $(DEP) $(PREFIX)/include
 
 uninstall:
 	$(RM) $(PREFIX)/lib/$(LIB)
-	$(RM) $(PREFIX)/include/bible_testine.h
+	$(RM) $(PREFIX)/include/$(DEP)
 
 clean:
 	$(RM) $(OBJS) $(LIB)
