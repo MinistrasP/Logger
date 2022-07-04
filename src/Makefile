@@ -3,7 +3,7 @@ CC:=gcc
 BIN:=myLogger
 SRC:=$(wildcard *.c)
 OBJS:=$(SRC:.c=.o)
-LDFLAGS:=-lMyLogger
+LDFLAGS:=-L ../lib/myLogger -lMyLogger
 PREFIX:=/usr
 
 .PHONY: all clean install uninstall

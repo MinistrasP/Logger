@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include "main.h"
 #include <myLogger.h>
+#include "main.h"
 
 int main (int argc, char *argv[])
 {
