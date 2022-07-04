@@ -7,7 +7,7 @@
 
 int main (int argc, char *argv[])
 {
-    printf("Program started\n");
+    printf("myLogger: Program started\n");
     int opt;
 
     if(argc != 2)
@@ -49,9 +49,8 @@ int main (int argc, char *argv[])
 
 void printHelp()
 {
-    printf("Program is used to create or delete a database.\n"
-            "To manually or automatically insert data and print data to screen\n"
-            "Database is created in /var/log/manoLogeris\n\n");
+    printf("Program is used to log data into a database.\n"
+           "Database is created in /var/log/myLogger.db\n\n");
     printf("Usage:\n"
             "-h help\n"
             "-c create an empty database\n"
