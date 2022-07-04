@@ -1,6 +1,6 @@
 # Logger
 
-Program logs data into a database using sqlite3. Database is stored as myLoggerDatabase.db at /var/log/
+Program logs data into a database using sqlite3. Database is stored as myLogger.db at /var/log/
 
 Usage: myLogger option
 
