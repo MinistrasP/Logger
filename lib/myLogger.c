@@ -5,7 +5,7 @@
 
 sqlite3 *db;
 sqlite3_stmt *res;
-const char filepath[] = "/var/log/myLoggerDatabase.db";
+const char filepath[] = "/var/log/myLogger.db";
 
 int callback(void *, int, char**, char**);
 
