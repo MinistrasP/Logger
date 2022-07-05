@@ -3,14 +3,14 @@ CC:=gcc
 BIN:=myLogger
 SRC:=$(wildcard *.c)
 OBJS:=$(SRC:.c=.o)
-LDFLAGS:=-L ../lib/myLogger -lMyLogger
+LDFLAGS:=-I../lib/ -L../lib/ -lmyLogger
 PREFIX:=/usr
 
 .PHONY: all clean install uninstall
 
 all: $(BIN)
 
-$(BIN): $(OBJS)
+$(BIN): $(SRC)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 install:

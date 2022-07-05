@@ -3,7 +3,7 @@ CFLAGS:=-std=c99 -Wall
 LDFLAGS:=-fPIC -shared
 
 PREFIX:=/usr
-LIB:=libMyLogger.so
+LIB:=libmyLogger.so
 SRC:=$(wildcard *.c)
 OBJS:=$(SRC:.c=.o)
 DEP:=myLogger.h
